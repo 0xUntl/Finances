@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl border border-slate-200/70 p-5;
+  }
+  .input {
+    @apply w-full px-3 py-2 bg-transparent border border-slate-200 rounded-lg outline-none focus:border-ink/40 transition;
+  }
+  .input-flat {
+    @apply w-full px-2 py-1.5 bg-transparent outline-none rounded hover:bg-slate-50 focus:bg-slate-50 transition;
+  }
+  .btn-ghost {
+    @apply text-xs text-slate-500 hover:text-ink transition;
+  }
+  .label {
+    @apply text-xs uppercase tracking-wider text-slate-400 font-medium;
+  }
+  .num {
+    @apply tabular-nums;
+  }
+}
