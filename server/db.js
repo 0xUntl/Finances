@@ -2,8 +2,22 @@ import Database from 'better-sqlite3';
 import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-const DB_PATH = process.env.DB_PATH || './data/finances.db';
-mkdirSync(dirname(DB_PATH), { recursive: true });
+// DB path resolution priority:
+// 1. Explicit DB_PATH env var
+// 2. Railway-injected volume mount path (RAILWAY_VOLUME_MOUNT_PATH)
+// 3. Local default ./data/finances.db
+const DB_PATH =
+  process.env.DB_PATH ||
+  (process.env.RAILWAY_VOLUME_MOUNT_PATH
+    ? `${process.env.RAILWAY_VOLUME_MOUNT_PATH}/finances.db`
+    : './data/finances.db');
+
+try {
+  mkdirSync(dirname(DB_PATH), { recursive: true });
+} catch (err) {
+  console.error(`[db] cannot create dir for ${DB_PATH}:`, err.message);
+}
+console.log(`[db] using ${DB_PATH}`);
 
 export const db = new Database(DB_PATH);
 db.pragma('journal_mode = WAL');
